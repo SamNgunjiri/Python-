@@ -19,4 +19,4 @@ elif operation == "/":
     else:
         print("Error! Division by zero is not possible")
 else:
-    print("Invalid operation! Please enter +, -, *, or /.")
+    print("Invalid operation! Please enter +, -, *, or /. Try again")
