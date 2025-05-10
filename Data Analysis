@@ -1,0 +1,104 @@
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+
+# Load the Iris dataset from sklearn
+iris = load_iris()
+
+# Convert it to a pandas DataFrame
+df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+
+# Add target column to the DataFrame
+df['species'] = iris.target
+
+# Map the target to species names for better readability
+df['species'] = df['species'].map({0: 'setosa', 1: 'versicolor', 2: 'virginica'})
+
+# Display the first few rows of the dataset
+print("First few rows of the dataset:")
+print(df.head())
+
+# Check the data types of each column
+print("\nData types of the columns:")
+print(df.dtypes)
+
+# Check for missing values
+print("\nMissing values in the dataset:")
+print(df.isnull().sum())
+
+# Clean the dataset by dropping rows with missing values (if any)
+df_cleaned = df.dropna()
+
+print("\nCleaned DataFrame shape:", df_cleaned.shape)
+
+
+
+
+# Basic statistics for numerical columns
+print("\nBasic statistics of the numerical columns:")
+print(df_cleaned.describe())
+
+# Perform groupings based on 'species' and compute the mean of numerical columns for each group
+species_group = df_cleaned.groupby('species').mean()
+
+print("\nMean values per species:")
+print(species_group)
+
+# Look for interesting findings in the analysis
+# Example: We can see the mean petal length for Setosa, Versicolor, and Virginica
+# Check if the Petal Length increases with species
+print("\nInteresting findings:")
+print(species_group['petal length (cm)'])
+
+
+
+# Line chart: Trends in Petal Length for different species
+plt.figure(figsize=(10, 6))
+sns.lineplot(x="species", y="petal length (cm)", data=df_cleaned, marker="o")
+plt.title("Petal Length across Species")
+plt.xlabel("Species")
+plt.ylabel("Petal Length (cm)")
+plt.show()
+
+
+# Bar chart: Average Sepal Length for each species
+plt.figure(figsize=(10, 6))
+sns.barplot(x="species", y="sepal length (cm)", data=df_cleaned)
+plt.title("Average Sepal Length per Species")
+plt.xlabel("Species")
+plt.ylabel("Average Sepal Length (cm)")
+plt.show()
+
+
+# Histogram: Distribution of Petal Length
+plt.figure(figsize=(10, 6))
+sns.histplot(df_cleaned['petal length (cm)'], kde=True, bins=20)
+plt.title("Distribution of Petal Length")
+plt.xlabel("Petal Length (cm)")
+plt.ylabel("Frequency")
+plt.show()
+
+
+# Scatter plot: Relationship between Sepal Length and Petal Length
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x="sepal length (cm)", y="petal length (cm)", hue="species", data=df_cleaned)
+plt.title("Relationship Between Sepal Length and Petal Length")
+plt.xlabel("Sepal Length (cm)")
+plt.ylabel("Petal Length (cm)")
+plt.legend(title="Species")
+plt.show()
+
+
+try:
+    # Attempt to load a dataset (replace this with actual loading code as needed)
+    df = pd.read_csv('path_to_your_dataset.csv')
+    print(df.head())
+except FileNotFoundError:
+    print("Error: The file was not found. Please check the file path.")
+except pd.errors.EmptyDataError:
+    print("Error: The file is empty.")
+except Exception as e:
+    print(f"An error occurred: {e}")
