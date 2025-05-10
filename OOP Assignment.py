@@ -39,3 +39,28 @@ hero1.display_power()
 print()
 hero2.introduce()
 hero2.display_power()
+
+
+# Base class
+class Vehicle:
+    def move(self):
+        raise NotImplementedError("This method should be overridden by subclasses")
+
+# Subclasses with unique implementations
+class Car(Vehicle):
+    def move(self):
+        print("Driving on the road 🚗")
+
+class Plane(Vehicle):
+    def move(self):
+        print("Flying in the sky ✈️")
+
+class Boat(Vehicle):
+    def move(self):
+        print("Sailing across the sea 🚢")
+
+# Demonstrate polymorphism
+vehicles = [Car(), Plane(), Boat()]
+
+for v in vehicles:
+    v.move()
